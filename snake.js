@@ -1,14 +1,15 @@
 const score = document.getElementById('score');
 const  canvas = document.getElementById("board");
 const ctx = canvas.getContext("2d");
-const snakeSize = 10;
-const boundary = 600;
-const speed =  0.3
-let x= 20;
-let y=20;
-let keyCode = 39;
-let snake = [];
-let food = {}
+const snakeSize = size.value*1 || 10; 
+const boundary = 600; // canvas size
+const snakeSpeed =  speed.value*1 || 10
+let x= snakeSize;
+let y= snakeSize; 
+let keyCode = 39; //last pressed key
+let snake = []; //snake length array
+let food = {} //food position
+let interval;
 const makeFood =() => {
     food.x = Math.floor(Math.random()*(boundary- snakeSize*3)/snakeSize)*snakeSize;
     food.y = Math.floor(Math.random()*(boundary-snakeSize*3)/snakeSize)*snakeSize;
@@ -52,12 +53,14 @@ const moveSnake = ()=> {
     score.innerHTML = x+ ' ' + y + '  ' + food.x + " " + food.y + ' ' + snake.length;
      
 }
-const isInBoundry = () => x+ snakeSize*2> boundary || y+ snakeSize*2> boundary || y-snakeSize<0 || x-snakeSize<0
-const interval = setInterval( moveSnake , 100);
-
-const changeDirection = (event) => {
-   if([37,38,39,40].includes(event.keyCode)) keyCode = event.keyCode;
+const startGame = () => {
+    interval = setInterval( moveSnake , 1000/snakeSpeed);
+    document.addEventListener('keyup', changeDirection);
+    makeFood();
 }
-makeFood();
-document.addEventListener('keyup', changeDirection);
+const changeDirection = (event) => {
+    if([37,38,39,40].includes(event.keyCode)) keyCode = event.keyCode;
+ }
+ const isInBoundry = () => x+ snakeSize*2> boundary || y+ snakeSize*2> boundary || y-snakeSize<0 || x-snakeSize<0
+
 
