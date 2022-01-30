@@ -1,18 +1,15 @@
 const score = document.getElementById('score');
 const  canvas = document.getElementById("board");
 const ctx = canvas.getContext("2d");
-const snakeSize = size.value*1 || 10; 
+let snakeSize ,  snakeSpeed , x , y , playAuto = false;
 const boundary = 600; // canvas size
-const snakeSpeed =  speed.value*1 || 10
-let x= snakeSize;
-let y= snakeSize; 
 let keyCode = 39; //last pressed key
 let snake = []; //snake length array
 let food = {} //food position
 let interval;
 const makeFood =() => {
-    food.x = Math.floor(Math.random()*(boundary- snakeSize*3)/snakeSize)*snakeSize;
-    food.y = Math.floor(Math.random()*(boundary-snakeSize*3)/snakeSize)*snakeSize;
+    food.x = Math.floor((Math.random()*(boundary- snakeSize*6)+snakeSize*3)/snakeSize)*snakeSize;
+    food.y = Math.floor((Math.random()*(boundary- snakeSize*6)+snakeSize*3)/snakeSize)*snakeSize;
 }
 const updateLocation = () => {
     if(keyCode === 38) y-=snakeSize;
@@ -21,7 +18,10 @@ const updateLocation = () => {
     else if(keyCode === 37) x-=snakeSize;
 }
 const updateLocationAutomatic = () => {
-    
+    if(food.y > y) y+=snakeSize;
+    else if(food.y < y) y-=snakeSize;
+    else if(food.x > x ) x+=snakeSize;
+    else if(food.x < x) x-=snakeSize;
 }
 const clearLastLocation = (location) => {
     if(snake[0]) {
@@ -50,13 +50,19 @@ const moveSnake = ()=> {
         return;
     }
     clearLastLocation(location);
-    updateLocation();
+    if(playAuto) updateLocationAutomatic();
+    else updateLocation()
     updateFood();
-    updateSnake()
+    updateSnake();
     score.innerHTML = x+ ' ' + y + '  ' + food.x + " " + food.y + ' ' + snake.length;
      
 }
 const startGame = () => {
+    snakeSize = size.value*1 || 10;
+    snakeSpeed = speed.value*1 || 10;
+    x = snakeSize;
+    y = snakeSize;
+    playAuto = isPlayAuto.checked;
     interval = setInterval( moveSnake , 1000/snakeSpeed);
     document.addEventListener('keyup', changeDirection);
     makeFood();
