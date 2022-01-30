@@ -20,6 +20,9 @@ const updateLocation = () => {
     else if(keyCode === 40) y+=snakeSize;
     else if(keyCode === 37) x-=snakeSize;
 }
+const updateLocationAutomatic = () => {
+    
+}
 const clearLastLocation = (location) => {
     if(snake[0]) {
         location = snake.pop()
