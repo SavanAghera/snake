@@ -71,6 +71,5 @@ const startGame = () => {
 const changeDirection = (event) => {
     if([37,38,39,40].includes(event.keyCode)) keyCode = event.keyCode;
  }
- const isInBoundary = () => x+ snakeSize*2> boundary || y+ snakeSize*2> boundary || y-snakeSize<0 || x-snakeSize<0
-
+ const isInBoundary = () => x+ snakeSize*2> boundary || y+ snakeSize*2> boundary || y-snakeSize<0 || x-snakeSize<0;
 
